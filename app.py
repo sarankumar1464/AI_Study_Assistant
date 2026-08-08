@@ -30,7 +30,7 @@ def study_assistant(question,persona):
   )
   return response.text
 
-  demo=gr.Interface(
+demo=gr.Interface(
     fn=study_assistant,
     inputs=[gr.Textbox(label="Question",lines=4,placeholder="Ask a Question.."),
             gr.Dropdown(choices=list(personalities.keys()),value="Friendly",label="Personality") ],
@@ -39,7 +39,7 @@ def study_assistant(question,persona):
     description="Ask a question to get simple explanation from AI along with analogies and real world examples"
 )
 
-  demo.launch( server_name="0.0.0.0",
+demo.launch( server_name="0.0.0.0",
     server_port=int(os.environ.get("PORT", 7860)),
                debug=True)
 
