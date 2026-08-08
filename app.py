@@ -17,20 +17,21 @@ personalities = {
    Always ask a follow-up question to check understanding."""
 }
 
-length_settings = {
-    "Short": 200,
-    "Medium": 500,
-    "Detailed": 1000
-}
 
 def study_assistant(question,persona,length):
-  system_prompt=personalities[persona]
+  system_prompt = personalities[persona] + """
+
+Keep your answer between 150 and 250 words.
+Be concise but complete.
+Never end a sentence halfway.
+Finish with a short summary.
+"""
   response = client.models.generate_content(
       model="gemini-3-flash-preview",
       config= types.GenerateContentConfig(
           system_instruction=system_prompt,
           temperature=0.4,
-          max_output_tokens=length_settings[length],
+          max_output_tokens=700,
           ),
       contents=question
   )
@@ -39,8 +40,7 @@ def study_assistant(question,persona,length):
 demo=gr.Interface(
     fn=study_assistant,
     inputs=[gr.Textbox(label="Question",lines=4,placeholder="Ask a Question.."),
-            gr.Dropdown(choices=list(personalities.keys()),value="Friendly",label="Personality"),
-            gr.Dropdown(choices=list(length_settings.keys()),value="Medium",label="Length") ],
+            gr.Dropdown(choices=list(personalities.keys()),value="Friendly",label="Personality")],
     outputs=gr.Textbox(label="Explanation",lines=10),
     title="Study Assistant",
     description="Ask a question to get simple explanation from AI along with analogies and real world examples"
