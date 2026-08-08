@@ -18,7 +18,7 @@ personalities = {
 }
 
 
-def study_assistant(question,persona,length):
+def study_assistant(question,persona):
   system_prompt = personalities[persona] + """
 
 Keep your answer between 150 and 250 words.
